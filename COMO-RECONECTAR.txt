@@ -1,0 +1,33 @@
+RECONECTAR EL MODELO DE KAGGLE (cuando la sesion cambia de URL y TOKEN)
+=======================================================================
+
+Cada sesion nueva de Kaggle trae una URL de tunel y un TOKEN nuevos. Antes habia que
+reiniciar el proxy y volver a pasarlos; ya no: el proxy se actualiza en caliente.
+
+1. En Kaggle, ejecuta el notebook: secciones 2, 4, 5, 6, 7 (y deja la 8 viva).
+   La seccion 7 imprime dos lineas:
+
+       URL            : https://algo.trycloudflare.com
+       TOKEN          : xxxxxxxxxxxxxxxxxxxxxxxx
+
+2. Copia esas dos lineas (o el bloque entero) y pegalas en el panel:
+
+       http://127.0.0.1:8081/panel        (o doble clic en panel-tunel.cmd)
+
+   Pulsa "Guardar y comprobar". Si dice "El tunel responde", ya esta.
+
+3. En ZCode, elige el modelo "Kaggle T4 (razonamiento)".
+
+Si el panel no carga, es que el proxy no esta arrancado: doble clic en iniciar-proxy.cmd.
+
+Archivos:
+  iniciar-proxy.cmd             arranca el proxy (ventana que hay que dejar abierta)
+  panel-tunel.cmd               abre el panel en el navegador
+  zcode-anthropic-proxy.py      el proxy (Anthropic <-> OpenAI); el panel vive dentro
+  zcode-anthropic-proxy.json    URL y TOKEN en uso; tambien se puede editar a mano
+                                (el proxy lo detecta y lo adopta sin reiniciar)
+
+Pruebas (desde C:\Users\dza\.zcode\workspace\default, con el proxy corriendo):
+  python probar_proxy_anthropic.py       traduccion de tools y streaming (sin Kaggle)
+  python probar_panel_proxy.py           panel, autorecarga y fallo rapido del tunel
+  python probar_proxy_en_vivo.py         cadena completa contra el proxy de 8081

@@ -1,0 +1,51 @@
+CHATEAR CON TU MODELO DE KAGGLE
+===============================
+
+Tres formas, de la mas comoda a la mas manual.
+
+1) DESDE ZCODE (lo normal, y lo que ya tienes montado)
+------------------------------------------------------
+En ZCode elige el modelo "Kaggle T4 (razonamiento)". ZCode habla con tu proxy de 8081 por
+/v1/messages, tu proxy traduce a OpenAI y el tunel de Kaggle responde con TU modelo.
+
+Ese camino no cambia nada: si el panel dice "El tunel responde", ya funciona.
+
+2) EN EL NAVEGADOR, CON UNA PAGINA DE CHAT
+------------------------------------------
+   Doble clic en  chatear.cmd      (o:  python chat-local.py)
+
+y abre:
+
+   http://127.0.0.1:8082
+
+Es una pagina para conversar: escribe y pulsa Enter, la respuesta sale palabra a palabra, y el
+razonamiento del modelo (<think>) queda plegado para que no tape la respuesta. Arriba a la derecha
+hay un punto de estado: verde = el tunel responde.
+
+No hay que copiar nada: lee la URL y el TOKEN del mismo zcode-anthropic-proxy.json que mantiene tu
+panel. Si cambias de sesion en Kaggle y pegas la URL nueva en el panel, esta pagina la coge sola
+(sin reiniciar).
+
+3) A MANO (para probar o para usar tus propias herramientas)
+------------------------------------------------------------
+Es una API compatible con OpenAI. Necesita la cabecera X-VS-Token:
+
+   curl -s %URL%/v1/chat/completions ^
+     -H "Content-Type: application/json" -H "X-VS-Token: %TOKEN%" ^
+     -d "{\"model\":\"razonamiento\",\"messages\":[{\"role\":\"user\",\"content\":\"hola\"}],\"max_tokens\":200}"
+
+El campo "model" puede ser "razonamiento" (el alias del motor); el servidor lo ignora.
+
+ARCHIVOS
+--------
+   chatear.cmd           abre la pagina de chat (doble clic)
+   chat-local.py         la pagina y su servidor (solo libreria estandar)
+   iniciar-proxy.cmd     el proxy Anthropic -> OpenAI (el de siempre)
+   panel-tunel.cmd       el panel para pegar la URL y el TOKEN de Kaggle
+
+SI ALGO FALLA
+-------------
+- Punto rojo y "la sesion de Kaggle se cerro": en Kaggle, ejecuta otra vez las secciones 4 a 8 del
+  notebook del motor y pega la URL y el TOKEN nuevos en el panel.
+- "rechaza el token": el TOKEN del panel es de otra sesion. Copia el bloque nuevo de la seccion 7.
+- Va lento: es lo esperado, el motor corre en CPU. La respuesta sale igual, pero despacio.

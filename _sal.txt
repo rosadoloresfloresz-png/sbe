@@ -1,0 +1,11 @@
+Uso la URL y el TOKEN guardados en zcode-anthropic-proxy.json
+(si la sesion de Kaggle es nueva, esos ya no sirven: pasalos de nuevo)
+Comprobando el tunel...
+  responde; modelos: razonamiento
+
+Proxy Anthropic -> OpenAI escuchando en http://127.0.0.1:8081
+  destino : https://retreat-belle-thats-plants.trycloudflare.com/v1
+  modelo  : razonamiento
+
+En ZCode el proveedor apunta a:  http://127.0.0.1:8081/v1
+Deja esta ventana abierta mientras uses el modelo. Ctrl+C para parar.
